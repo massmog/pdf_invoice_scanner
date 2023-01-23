@@ -63,7 +63,7 @@ Get-ChildItem $files | ForEach-Object {
     }
 
     # Find vendors
-    if ($invoice -cmatch '(?:Amazon|Conrad|Vettore|ÖBB|DB|Hotel|Jusline|ACP|HoT)') {
+    if ($invoice -cmatch '(?:Amazon|Conrad|Vettore|ÖBB|DB|Hotel|Jusline|ACP|HoT|Welectron)') {
         $vendor = $matches[0]
 
         $doc_description = $vendor 
@@ -71,6 +71,10 @@ Get-ChildItem $files | ForEach-Object {
         if ($vendor -eq 'Amazon') {
             # Find Amazon Rechnungsnummer
             if ($invoice -cmatch 'AT[A-Z0-9]{10}') {
+                $amazon_order_no = $matches[0]
+                $doc_description = $doc_description+"_"+$amazon_order_no
+             }
+             elseif ($invoice -cmatch 'DE[A-Z0-9]{11}') {
                 $amazon_order_no = $matches[0]
                 $doc_description = $doc_description+"_"+$amazon_order_no
              }
